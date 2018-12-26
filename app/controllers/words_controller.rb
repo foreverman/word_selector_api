@@ -8,4 +8,9 @@ class WordsController < ApplicationController
     words_recommended = query.kinda_spelled_like(params[:word_input]).limit(10)
     render json: words_recommended.map(&:spelling)
   end
+
+  def fuzzy_match
+    words_recommended = Word.kinda_spelled_like(params[:word_input]).limit(10)
+    render json: words_recommended.map(&:spelling)
+  end
 end
