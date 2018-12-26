@@ -1,16 +1,9 @@
 class WordsController < ApplicationController
   def fuzzy_search
-    query = Word
-    words_excluded = params[:words_excluded]
-    if words_excluded && words_excluded.any?
-      query = query.where.not(spelling: params[:words_excluded])
-    end
-    words_recommended = query.kinda_spelled_like(params[:word_input]).limit(10)
-    render json: words_recommended.map(&:spelling)
-  end
-
-  def fuzzy_match
-    words_recommended = Word.kinda_spelled_like(params[:word_input]).limit(10)
+    words_recommended = Word.fuzzy_search(
+      params[:word_input], 
+      params[:words_excluded]
+    )
     render json: words_recommended.map(&:spelling)
   end
 end
