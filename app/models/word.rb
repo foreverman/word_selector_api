@@ -1,8 +1,9 @@
 class Word < ApplicationRecord
   include PgSearch
   pg_search_scope :kinda_spelled_like,
-                  :against => :spelling,
-                  :using => :trigram
+                  against: :spelling,
+                  using:  :trigram,
+                  ranked_by: ":trigram"
 
   def self.fuzzy_search(word_input, words_excluded)
     query = self
